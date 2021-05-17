@@ -2,3 +2,8 @@
 /timer-service/target/
 /time-service-impl/target/
 /launcher/target/
+/timer_service_impl_withdelegation/target/
+/actions/target/
+/myWatch/target/
+/gui_display/target/
+/gui_control/target/

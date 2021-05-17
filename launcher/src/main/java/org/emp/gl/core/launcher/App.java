@@ -1,25 +1,32 @@
 package org.emp.gl.core.launcher;
 
 import org.emp.gl.core.lookup.Lookup;
-import org.emp.gl.time.service.impl.DummyTimeServiceImpl;
-import org.emp.gl.timer.service.TimerChangeListener;
+import org.emp.gl.gui_control.Gui_Control;
+import org.emp.gl.gui_display.Gui_Display;
+import org.emp.gl.myWatch.MyWatch;
 import org.emp.gl.timer.service.TimerService;
+import org.emp.gl.actions.Action;
 
-/**
- * Hello world!
- *
- */
 public class App {
 
-    // ce code nous permettra d'enregistrer les service que notre application utilsiera 
-    // lors de l'execution
     static {
-        Lookup.getInstance().register(TimerService.class, new DummyTimeServiceImpl());
+
+        Lookup.getInstance().register(TimerService.class, new MyWatch());
+        
+        // add to lookup mywatch service that do the logique of config, mode and increment
+        Lookup.getInstance().register(Action.class, new MyWatch());
     }
 
     public static void main(String[] args) {
 
         testDuTimeService();
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Gui_Control().setVisible(true);
+                new Gui_Display().setVisible(true);
+            }
+        });
     }
 
 
@@ -27,13 +34,13 @@ public class App {
 
         TimerService ts = Lookup.getInstance().getService(TimerService.class);
 
-        ts.addTimeChangeListener(new AfficheurHeureSurConsole());
-//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
+        ts.addTimeChangeListener(new Gui_Display());
+
 
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
+       //System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 }

@@ -16,20 +16,33 @@ import org.emp.gl.timer.service.TimerService;
  */
 public class AfficheurHeureSurConsole implements TimerChangeListener {
 
+    
+    //Fonctionnalité de réafficher l'heure courante après chaque changement des secondes ,minutes ou des heures 
     @Override
-    public void propertyChange(String propertyName, Object oldValue, Object newValue) {
+    public void propertyChange(PropertyChangeEvent pce) {
         
         TimerService ts = Lookup.getInstance().getService(TimerService.class);
         
-        System.out.println("" + ts.getHeures() + ":" + ts.getMinutes() + ":"
+        switch (pce.getPropertyName()){
+            case TimerChangeListener.HEURE_PROP:
+                System.out.println("" + ts.getHeures() + ":" + ts.getMinutes() + ":"
                 + ts.getSecondes() + "," + ts.getDixiemeDeSeconde());
-    }
-
-    // cette méthode provient du PropertyChangeListener 
-    // à utiliser plustard ! 
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                break;
+            case TimerChangeListener.MINUTE_PROP:
+                System.out.println("" + ts.getHeures() + ":" + ts.getMinutes() + ":"
+                + ts.getSecondes() + "," + ts.getDixiemeDeSeconde());
+                break;
+            case TimerChangeListener.SECONDE_PROP:
+                System.out.println("" + ts.getHeures() + ":" + ts.getMinutes() + ":"
+                + ts.getSecondes() + "," + ts.getDixiemeDeSeconde());
+                break;
+            case TimerChangeListener.DIXEME_DE_SECONDE_PROP:
+                System.out.println("" + ts.getHeures() + ":" + ts.getMinutes() + ":"
+                + ts.getSecondes() + "," + ts.getDixiemeDeSeconde());
+                break;
+               
+        }
+        
     }
 
 }

@@ -47,7 +47,33 @@
       <version>0.0.1</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+        <groupId>org.emp.gl</groupId>
+        <artifactId>timer_service_impl_withdelegation</artifactId>
+        <version>0.0.1</version>
+        <type>jar</type>
+    </dependency>
+    <!-- ici on rajoute les les dépendances pour la partie de TP1 où on veut afficher deux inferface graphiques différents -->
+  <dependency>
+        <groupId>org.emp.gl</groupId>
+        <artifactId>gui_display</artifactId>
+        <version>0.0.1</version>
+        <type>jar</type>
+  </dependency>
+  <dependency>
+        <groupId>org.emp.gl</groupId>
+        <artifactId>gui_control</artifactId>
+        <version>0.0.1</version>
+        <type>jar</type>
+  </dependency>
+  <dependency>
+        <groupId>org.emp.gl</groupId>
+        <artifactId>actions</artifactId>
+        <version>0.0.1</version>
+        <type>jar</type>
+    </dependency>
   </dependencies>
+  
 
   <build>
     <plugins>

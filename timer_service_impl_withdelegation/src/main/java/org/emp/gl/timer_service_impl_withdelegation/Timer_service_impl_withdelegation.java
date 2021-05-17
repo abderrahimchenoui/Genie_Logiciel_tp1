@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.emp.gl.time.service.impl;
+package org.emp.gl.timer_service_impl_withdelegation;
 
+
+import java.beans.PropertyChangeSupport;
 import java.time.LocalTime;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.emp.gl.timer.service.TimerChangeListener;
@@ -15,26 +15,22 @@ import org.emp.gl.timer.service.TimerService;
 
 /**
  *
- * @author tina
+ * @author pc
  */
-public class DummyTimeServiceImpl
-        extends TimerTask
-        implements TimerService {
+public class Timer_service_impl_withdelegation extends TimerTask implements TimerService {
 
     int dixiemeDeSeconde;
     int minutes;
     int secondes;
     int heures;
-
-    /**
-     * Constructeur du DummyTimeServiceImpl Ici, nnous avons hérité de la classe
-     * TimerTask, et nous nous avons utilisé un objet Timer, qui permet de
-     * réaliser des tocs à chaque N millisecondes
-     */
-    public DummyTimeServiceImpl() {
+    
+    PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this) ;
+    
+    public Timer_service_impl_withdelegation() {
         Timer timer = new Timer();
 
         LocalTime localTime = LocalTime.now();
+        //LocalTime localTime = LocalTime.of(15, 10, 10); pour changer 
 
         secondes = localTime.getSecond();
         minutes = localTime.getMinute();
@@ -49,17 +45,18 @@ public class DummyTimeServiceImpl
         timeChanged();
     }
 
-    List<TimerChangeListener> listeners = new LinkedList<>();
-
     @Override
     public void addTimeChangeListener(TimerChangeListener pl) {
-        listeners.add(pl);
+        propertyChangeSupport.addPropertyChangeListener(pl);
+        
     }
     
     @Override
     public void removeTimeChangeListener(TimerChangeListener pl) {
-        listeners.remove(pl);
-    }
+        
+        propertyChangeSupport.removePropertyChangeListener(pl);
+        
+        }
 
     @Override
     public int getMinutes() {
@@ -88,50 +85,53 @@ public class DummyTimeServiceImpl
     private void updateDixiemeDeSecode() {
         int oldValue = dixiemeDeSeconde;
         dixiemeDeSeconde = (dixiemeDeSeconde + 1) % 10;
-
+        
         // informer les listeners ! 
-        for (TimerChangeListener l : listeners) {
-            //l.propertyChange(TimerChangeListener.DIXEME_DE_SECONDE_PROP,oldValue, dixiemeDeSeconde);
-        }
+        propertyChangeSupport.firePropertyChange(TimerChangeListener.DIXEME_DE_SECONDE_PROP,
+                    oldValue, dixiemeDeSeconde);
+        
 
         if (dixiemeDeSeconde == 0) {
             updateSecode();
         }
     }
 
-    private void updateSecode() {
+    public void updateSecode() {
         int oldValue = secondes;
         secondes = (secondes + 1) % 60;
 
-        for (TimerChangeListener l : listeners) {
-           // l.propertyChange(TimerChangeListener.SECONDE_PROP,oldValue, secondes);
-        }
-
+        propertyChangeSupport.firePropertyChange(TimerChangeListener.SECONDE_PROP,
+            oldValue, secondes);
+        
+        
         if (secondes == 0) {
             updateMinutes();
         }
     }
 
-    private void updateMinutes() {
+    public void updateMinutes() {
         int oldValue = minutes;
         minutes = (minutes + 1) % 60;
 
-        for (TimerChangeListener l : listeners) {
-            // l.propertyChange(TimerChangeListener.MINUTE_PROP,oldValue, minutes);
-        }
-
+        propertyChangeSupport.firePropertyChange(TimerChangeListener.MINUTE_PROP,
+               oldValue, minutes);
+       
         if (minutes == 0) {
             updateHeures();
         }
     }
 
-    private void updateHeures() {
+    public void updateHeures() {
         int oldValue = heures;
         heures = (heures + 1) % 24;
 
-        for (TimerChangeListener l : listeners) {
-            //l.propertyChange(TimerChangeListener.HEURE_PROP,oldValue, heures);
-        }
+       propertyChangeSupport.firePropertyChange(TimerChangeListener.HEURE_PROP,
+                    oldValue, heures);
+        
     }
-
+    public void onPause() throws InterruptedException{
+        
+        propertyChangeSupport.wait();
+       
+    }
 }

@@ -22,7 +22,6 @@ public class CompteARebour implements TimerChangeListener {
         this.compteArebours = compteARebour ;
     }
 
-    @Override
     public void propertyChange(String prop, Object oldValue, Object newValue) {
         if (prop.equals(TimerChangeListener.SECONDE_PROP)) {
             compteArebours--;

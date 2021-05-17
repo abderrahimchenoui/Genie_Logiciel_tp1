@@ -5,7 +5,6 @@
  */
 package org.emp.gl.timer.service;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -23,6 +22,7 @@ public interface TimerChangeListener
 
 
     // cette méthode sera supprimé et remplacé par celle provenant du PropertyChangeListener
-    void propertyChange (String propertyName, Object oldValue, Object newValue) ;
-                  
+    
+    /*void propertyChange(String propertyName, Object oldValue, Object newValue) ;*/
+       
 }

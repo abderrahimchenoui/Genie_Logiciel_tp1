@@ -6,7 +6,9 @@
         <artifactId>firsttp</artifactId>
         <version>0.0.1</version>
     </parent>
+    <groupId>org.emp.gl</groupId>
     <artifactId>time-service-impl</artifactId>
+    <version>0.0.1</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
